@@ -27,7 +27,7 @@
         ],
         "responses": {
           "200": {
-            "description": "token exist",
+            "description": "token found",
             "content": {
               "application/json": {
                 "schema": {
@@ -36,8 +36,18 @@
               }
             }
           },
+          "404": {
+            "description": "token not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
           "default": {
-            "description": "login failed",
+            "description": "login by token failed",
             "content": {
               "application/json": {
                 "schema": {
