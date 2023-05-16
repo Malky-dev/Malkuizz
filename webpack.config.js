@@ -1,29 +1,35 @@
-//webpack.config.js
-const path = require('path')
-const webpack = require('webpack')
+"use strict";
 
-module.exports = () => { 
+// deps
+
+  // natives
+  const { join } = require('path')
+
+  // externals
+  const webpack = require('webpack')
+
+// modules
+
+module.exports = () => {
   return {
     "mode": "none",
-    entry: path.join(__dirname, 'public', 'src', 'app.tsx'),
-    output: {
-      path: path.join(__dirname, 'public'),
-      filename: 'main.js'
+    "entry": join(__dirname, 'public', 'src', 'app.tsx'),
+    "output": {
+      "path": join(__dirname, 'public'),
+      "libraryTarget": "umd",
+      "filename": 'main.js'
     },
-    devServer: {
-      port: 8000
-    },
-    module: {
-      rules: [
+    "module": {
+      "rules": [
         {
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader',
+          "test": /\.tsx?$/,
+          "exclude": /node_modules/,
+          "loader": "ts-loader"
         }
       ]
     },
     resolve: {
-      "extensions": [ ".js", ".json", ".ts", ".tsx", ".jsx"]
+      "extensions": [ ".json", ".ts", ".tsx", ".js", ".jsx" ]
     },
     plugins:[
       new webpack.DefinePlugin({
