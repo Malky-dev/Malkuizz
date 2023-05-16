@@ -4,7 +4,9 @@
   "description": "\"# Malkuizz\"",
   "main": "index.js",
   "scripts": {
-    "start": "node ./app.js",
+    "start": "webpack serve --mode development --open --hot",
+    "build": "webpack --mode production",
+    "build-tmp": "npx tsc \"C:\\laragon\\www\\malkuizz-js\\public\\src\\app.tsx\" --outDir \"C:\\laragon\\www\\malkuizz-js\\public\" --jsx react --allowJs --esModuleInterop",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,11 +21,27 @@
   "homepage": "https://github.com/Malky-dev/Malkuizz#readme",
   "dependencies": {
     "bootstrap": "^5.3.0-alpha3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-openapi-validate": "^0.6.1",
     "mysql2": "^3.3.0",
-    "react": "^18.2.0",
     "sequelize": "^6.31.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^9.1.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^5.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.4",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
   }
 }

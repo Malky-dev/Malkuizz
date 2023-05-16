@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+
+        "target": "es5",
+        "module": "commonjs",
+
+        "declaration": false,
+
+		"alwaysStrict": true,
+		"strict": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+        "noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "removeComments": true,
+
+        "jsx": "react"
+
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "compileOnSave": false
+}

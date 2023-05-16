@@ -6,17 +6,6 @@ function encryptSHA256(params) {
   return createHash('sha256').update(params).digest('hex')
 }
 
-function getCurrentSQLDateTime () {
-  const date = new Date()
-  return formatDate(date)
-}
-
-function getSQLDateTimePlusThirtyDays () {
-  const date = new Date()
-  const datePlusThirty = new Date().setDate(date.getDate() + 30) 
-  return formatDate(datePlusThirty)
-}
-
 function formatDate (date) {
   return String(date.getFullYear()).padStart(4, "0") + "-" +
     String(date.getMonth() + 1).padStart(2, "0") + "-" +
@@ -26,4 +15,4 @@ function formatDate (date) {
     String(date.getSeconds()).padStart(2, "0");
 }
 
-module.exports = { encryptSHA256, getCurrentSQLDateTime, getSQLDateTimePlusThirtyDays, formatDate }
+module.exports = { encryptSHA256, formatDate }

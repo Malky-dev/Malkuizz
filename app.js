@@ -9,6 +9,7 @@
   const cors = require('cors')
   const { Sequelize } = require('sequelize')
   const DeviceDetector = require("device-detector-js")
+  const cookieParser = require('cookie-parser')
 
   // locals
   const { getUser, getSession } = require(join(__dirname, 'definitions', 'definitions.js'))
@@ -26,8 +27,10 @@ const Session = getSession(sequelize)
 
 // module
 
-app.use(cors())
 app.use(express.json())
+app.use(cors())
+app.use(cookieParser())
+
 User.hasMany(Session, { foreignKey: 'userID'})
 Session.belongsTo(User, { foreignKey: 'userID'})
 
@@ -78,9 +81,9 @@ app.get('/api/session/:token', async function (req, res) {
     const user = await User.findOne({ where: { email: req.body.email, password: encryptSHA256(req.body.password) }})
     if (user) {
      const token = encryptSHA256(req.body.email + formatDate(new Date))
-     const deviceDetector = new DeviceDetector();
+     const deviceDetector = new DeviceDetector()
      const userAgent = req.get('User-Agent')
-     const device = deviceDetector.parse(userAgent);
+     const device = deviceDetector.parse(userAgent)
 
      Session.create({ 
       userID: user.userID,
@@ -89,7 +92,9 @@ app.get('/api/session/:token', async function (req, res) {
       device: device.device.type,
       browser: device.client.name })
 
-      res.cookie('MalkuizzToken', token, { expires: new Date(new Date().setDate(new Date().getDate() + 30)) });
+      res.cookie('MalkuizzToken', token, { maxAge: 1000*60*60*24*30 })
+
+      res.json(token)
 
     } else {
       res.status(404).json({code: "NOT_FOUND", message: "User not available"})
