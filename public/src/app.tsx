@@ -1,7 +1,9 @@
 "use strict"
 
 import React from "react";
-import Login from "./Login";
+import Login from "./widgets/Login";
+import Navbar from "./widgets/Navbar";
+import { iUser } from "./apisdk";
 
 interface iProps {}
 
@@ -17,16 +19,17 @@ export default class App extends React.Component<iProps, iStates> {
     this.handleIsConnected = this.handleIsConnected.bind(this)
   }
 
-  private handleIsConnected():void {
+  private handleIsConnected(user: iUser):void {
     this.setState({isConnected:true})
+  }
+  private selectViewReturned():JSX.Element|null {
+    if (!this.state.isConnected) {
+      return <> <Login onConnected={this.handleIsConnected} /></>
+    }
+    return null
   }
 
   public render():JSX.Element {
-
-    if (!this.state.isConnected) {
-      return <Login onConnected={this.handleIsConnected}/>
-    }
-
-    return <p>vous etes connecté</p>
+    return <><Navbar isConnected={this.state.isConnected} /> {this.selectViewReturned()} </>
   }
 }

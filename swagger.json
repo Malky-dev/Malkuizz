@@ -31,7 +31,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -218,7 +218,27 @@
   },
   "components": {
     "schemas": {
-      "Error" : {
+      "User": {
+        "type": "object",
+        "required": [
+          "nickname",
+          "role",
+          "isVerified"
+        ],
+        "properties": {
+          "nickname": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["admin", "moderator", "basic"]
+          },
+          "isVerified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Error": {
         "type": "object",
         "required": [
           "code",

@@ -1,0 +1,16 @@
+.mainBackgroundColor {
+  background-color: #EAD9EB;
+}
+
+.secondaryBackgroundColor {
+  background-color: #E3B04B;
+}
+
+.loginImg {
+  background: url(/public/img/malkuizz.png) no-repeat;
+}
+
+.loginSubmitButton:hover {
+  background-color: #FD7F32;
+}
+
