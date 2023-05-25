@@ -5,7 +5,9 @@ import React from "react";
 export default class Home extends React.Component {
   
   constructor () {
+
     super({})
+    
   }
 
   public render():JSX.Element {

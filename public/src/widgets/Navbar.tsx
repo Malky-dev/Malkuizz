@@ -4,9 +4,11 @@ import React from "react";
 
 interface iProps {
   isConnected:boolean
+  role: string
 }
 
 export default class Navbar extends React.Component<iProps> {
+
   public render():JSX.Element {
     
     return <nav className="navbar navbar-expand-lg navbar-light justify-content-between secondaryBackgroundColor">    
@@ -28,6 +30,15 @@ export default class Navbar extends React.Component<iProps> {
           </li>}
           {this.props.isConnected && <li className="nav-item">
             <a className="nav-link" href="#">Voir mes scores</a>
+          </li>}
+          {this.props.role !== 'basic' && <li className="nav-item">
+            <a className="nav-link" href="#">Ajouter une question</a>
+          </li>}
+          {this.props.role !== 'basic' && <li className="nav-item">
+            <a className="nav-link" href="#">Editer une question</a>
+          </li>}
+          {this.props.role === 'admin' && <li className="nav-item">
+            <a className="nav-link" href="#">Gérer les utilisateurs</a>
           </li>}
         </ul>
       </div>
