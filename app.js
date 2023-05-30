@@ -106,7 +106,17 @@ app.get('/api/session/:token', async function (req, res) {
 
     })
 
-    (session) ? res.json({"nickname": session['User.nickname'], "role": session['User.Role.roleLabel'], "isVerified": !!session['User.isVerified']}) : res.status(404).json({code: "NOT_FOUND", message: "Token not available"})
+    // must be delayed to avoid session crash
+    new Promise((resolve) => {
+
+      setTimeout(resolve, 100)
+
+    })
+    .then(
+
+      (session) ? res.json({"nickname": session['User.nickname'], "role": session['User.Role.roleLabel'], "isVerified": !!session['User.isVerified']}) : res.status(404).json({code: "NOT_FOUND", message: "Token not available"})
+
+    )
 
   } catch (error) {
 

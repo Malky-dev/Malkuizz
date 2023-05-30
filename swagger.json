@@ -190,10 +190,10 @@
         }
       },
       "delete": {
-        "description": "logout",
+        "description": "signout",
         "responses": {
           "204": {
-            "description": "logout sucessfull",
+            "description": "signout sucessfull",
             "content": {
               "application/json": {
                 "schema": {
@@ -203,7 +203,7 @@
             }
           },
           "default": {
-            "description": "logout failed",
+            "description": "signout failed",
             "content": {
               "application/json": {
                 "schema": {
