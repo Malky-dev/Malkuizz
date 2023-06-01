@@ -13,7 +13,7 @@
 module.exports = () => {
   return {
     "mode": "none",
-    "entry": join(__dirname, 'public', 'src', 'app.tsx'),
+    "entry": join(__dirname, 'public', 'src', 'index.tsx'),
     "output": {
       "path": join(__dirname, 'public'),
       "libraryTarget": "umd",
