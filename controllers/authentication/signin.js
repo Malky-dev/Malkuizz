@@ -2,7 +2,7 @@
 const { join } = require('path')
 
 // locals
-const { encryptSHA256 } = require(join(__dirname, '..' , 'global.js'))
+const { encryptSHA256 } = require(join(__dirname, '..' , '..' , 'global.js'))
 
 module.exports = async function controllerAPISignin ( app, req, res ) {
 

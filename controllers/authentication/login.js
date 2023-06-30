@@ -5,7 +5,7 @@ const { join } = require('path')
 const DeviceDetector = require("device-detector-js")
 
 // locals
-const { encryptSHA256, formatDate } = require(join(__dirname, '..' , 'global.js'))
+const { encryptSHA256, formatDate } = require(join(__dirname, '..' , '..' , 'global.js'))
 
 module.exports = async function controllerAPILogin ( app, req, res ) {
 
