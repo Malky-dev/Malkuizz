@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./app.js",
-    "build": "webpack --mode production",
+    "build": "npx openapi-typescript 'swagger.json' --output './public/src/swagger.ts' --default-non-nullable --version 3 && webpack --mode production",
     "build-tmp": "npx tsc \"C:\\laragon\\www\\malkuizz-js\\public\\src\\app.tsx\" --outDir \"C:\\laragon\\www\\malkuizz-js\\public\" --jsx react --allowJs --esModuleInterop",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -34,6 +34,7 @@
     "@babel/core": "^7.21.8",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
+    "openapi-typescript": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "terser-webpack-plugin": "5.3.7",

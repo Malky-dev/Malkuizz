@@ -9,5 +9,11 @@ const getDifficulty = require(join(__dirname, 'Difficulty'))
 const getScore = require(join(__dirname, 'Score'))
 
 module.exports = {
-  getUser, getSession, getRole, getQuestion, getCategory, getDifficulty, getScore
+  getUser,
+  getSession,
+  getRole,
+  getQuestion,
+  getCategory,
+  getDifficulty,
+  getScore
 }

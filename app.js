@@ -8,13 +8,28 @@
   const express = require('express')
   const cors = require('cors')
   const { Sequelize } = require('sequelize')
-  const DeviceDetector = require("device-detector-js")
   const cookieParser = require('cookie-parser')
   const bodyParser = require('body-parser')
 
   // locals
-  const { getUser, getSession, getRole } = require(join(__dirname, 'definitions', 'definitions.js'))
-  const { encryptSHA256, formatDate } = require(join(__dirname, 'global.js'))
+  const { getUser,
+          getSession,
+          getRole,
+          getQuestion,
+          getCategory,
+          getDifficulty,
+          getScore
+        } = require(join(__dirname, 'definitions', 'definitions.js'))
+
+  const { controllerAPILogin,
+          controllerAPISession,
+          controllerAPISignin,
+          controllerAPIGetQuestion,
+          controllerAPIGetQuestions,
+          controllerAPIAddQuestion,
+          controllerAPIEditQuestion,
+          controllerAPIDeleteQuestion
+        } = require(join(__dirname, 'controllers', 'controllers.js'))
 
 // consts
 const app = express()
@@ -26,6 +41,9 @@ const sequelize = new Sequelize('malkuizz', 'root', '', {
 const User = getUser(sequelize)
 const Session = getSession(sequelize)
 const Role = getRole(sequelize)
+const Question = getQuestion(sequelize)
+const Difficulty = getDifficulty(sequelize)
+const Category = getCategory(sequelize)
 
 // module
 app.use(express.json())
@@ -40,6 +58,12 @@ Session.belongsTo(User, { foreignKey: 'userID'})
 User.hasOne(Role, { foreignKey: 'roleID'})
 Role.belongsTo(User, { foreignKey: 'roleID'})
 
+app.User= User
+app.Session= Session
+app.Role= Role
+app.Question= Question
+app.Category= Category
+app.Difficulty= Difficulty
 
 // APP PUBLIC
 // HTML
@@ -76,117 +100,75 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'public', 'img', 'malkuizz.png'))
 
 })
+.get('/public/img/edit24.png', (req, res) => {
 
-// APP API
-app.get('/api/session/:token', async function (req, res) {
+  res.sendFile(join(__dirname, 'public', 'img', 'edit24.png'))
 
-  try {
-
-    if (typeof req.params === 'undefined') {
-
-      throw new ReferenceError("no params in req")
-
-    } else if (typeof req.params.token === 'undefined') {
-
-      throw new ReferenceError("token reference error")
-
-    } else if (typeof req.params.token !== 'string') {
-
-      throw new TypeError("token type error")
-
-    }
-
-    const session = await Session.findOne({ 
-
-      where: { token: req.params.token }, 
-      include: {model: User, required: true, right: true,
-        include: {model: Role, required: true}
-      },
-      raw: true
-
-    })
-
-    // must be delayed to avoid session crash
-    new Promise((resolve) => {
-
-      setTimeout(resolve, 100)
-
-    })
-    .then(
-
-      (session) ? res.json({"nickname": session['User.nickname'], "role": session['User.Role.roleLabel'], "isVerified": !!session['User.isVerified']}) : res.status(404).json({code: "NOT_FOUND", message: "Token not available"})
-
-    )
-
-  } catch (error) {
-
-    res.status(500).json({code: "ERROR", message: error.message})
-    console.log(error);
-
-  }
 })
-.post('/api/login', async (req, res) => {  
+.get('/public/img/delete24.png', (req, res) => {
 
-  try {
-    console.log(req.body);
+  res.sendFile(join(__dirname, 'public', 'img', 'delete24.png'))
 
-    if (typeof req.body === 'undefined') {
+})
 
-      throw new ReferenceError("no params in body")
+// APP API 
+app.get('/api/session/:token', async (req, res) => {
 
-    } else if (typeof req.body.email === 'undefined') {
+  controllerAPISession( app, req, res )
 
-      throw new ReferenceError("email reference error")
+})
 
-    } else if (typeof req.body.email !== 'string') {
+.post('/api/login', async (req, res) => {
 
-      throw new TypeError("email type error")
+  controllerAPILogin( app, req, res )
 
-    } else if (typeof req.body.password === 'undefined') {
+})
 
-      throw new ReferenceError("password reference error")
+.post('/api/signin', async ( req, res ) => {
 
-    } else if (typeof req.body.password !== 'string') {
+  controllerAPISignin( app, req, res )
 
-      throw new TypeError("password type error")
+})
 
-    }
+// Middleware to authenticate the user
+.use(async ( req, res, next ) => {
 
-    const user = await User.findOne({ where: { email: req.body.email, password: encryptSHA256(req.body.password) }})
-    
-    if (user) {
+  middlewareCheckUser( app, req, res, next )
 
-     const token = encryptSHA256(req.body.email + formatDate(new Date))
-     const deviceDetector = new DeviceDetector()
-     const userAgent = req.get('User-Agent')
-     const device = deviceDetector.parse(userAgent)
+})
 
-     Session.create({ 
-      userID: user.userID,
-      token: token,
-      expiration: formatDate(new Date(new Date().setDate(new Date().getDate() + 30))),
-      device: device.device.type,
-      browser: device.client.name })
+.get('/api/question/:id', async (req, res) => {
 
-      res.cookie('Malkuizz', token, { maxAge: 1000*60*60*24*30 })
+  controllerAPIGetQuestion( app, req, res )
 
-      res.json(token)
+})
 
-    } else {
+.get('/api/questions', async (req, res) => {
 
-      res.status(404).json({code: "NOT_FOUND", message: "User not available"})
+  controllerAPIGetQuestions( app, req, res )
 
-    }
-  } catch (error) {
+})
 
-    res.status(500).json({code: "ERROR", message: error.message})
-    console.log(error);
+.put('/api/question', async (req, res) => {
 
-  }
+  controllerAPIAddQuestion( app, req, res )
+
+})
+
+.post('/api/question/:id', async (req, res) => {
+
+  controllerAPIEditQuestion( app, req, res )
+
+})
+
+.delete('/api/question/:id', async (req, res) => {
+
+  controllerAPIDeleteQuestion( app, req, res )
+
 })
 
 // Global 404
-app.use(function(req, res) {
+.use(function(req, res) {
 
   res.status(404);
   res.json({code: "NOT_FOUND", message: 'Page not found' });

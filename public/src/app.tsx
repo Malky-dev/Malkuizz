@@ -10,6 +10,7 @@ import Question from "./widgets/Question";
 import Score from "./widgets/Score";
 import User from "./widgets/User";
 import Signin from "./widgets/Signin";
+import Questions from "./widgets/Questions";
 
 interface iProps {}
 
@@ -29,6 +30,7 @@ export default class App extends React.Component<iProps, iStates> {
 
     this.handleIsConnected = this.handleIsConnected.bind(this)
     this.handleOnNavigation = this.handleOnNavigation.bind(this)
+    this.handleIsRegistered = this.handleIsRegistered.bind(this)
 
   }
 
@@ -44,11 +46,17 @@ export default class App extends React.Component<iProps, iStates> {
 
   }
 
+  private handleIsRegistered():void {
+
+    this.setState({ page: 'login' })
+
+  }
+
   private selectViewReturned():JSX.Element|null {
 
     if (!this.state.isConnected) {
       
-      return (this.state.page === "signin") ? <Signin /> : <Login onConnected={ this.handleIsConnected } />
+      return this.state.page === "signin" ? <Signin onRegistered={ this.handleIsRegistered }/> : <Login onConnected={ this.handleIsConnected } />
 
     }
 
@@ -62,15 +70,15 @@ export default class App extends React.Component<iProps, iStates> {
 
         return <Score />
 
-      case 'addQuestion':
+      case 'questions':
   
-        return <Question />
+        return <Questions />
 
-      case 'editQuestion':
+      case 'question':
     
         return <Question />
 
-      case 'editUsers':
+      case 'user':
       
         return <User />
 

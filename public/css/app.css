@@ -10,6 +10,14 @@
   background: url(/public/img/malkuizz.png) no-repeat;
 }
 
+.editImg24 {
+  background: url(/public/img/edit24.png) no-repeat;
+}
+
+.deleteImg24 {
+  background: url(/public/img/delete24.png) no-repeat;
+}
+
 .loginSubmitButton:hover {
   background-color: #FD7F32;
 }

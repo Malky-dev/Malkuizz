@@ -21,7 +21,7 @@
             "in" : "path",
             "required": true,
             "schema": {
-              "type" : "string"
+              "$ref": "#/components/schemas/Token"
             }
           }
         ],
@@ -91,7 +91,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Token"
                 }
               }
             }
@@ -178,7 +178,7 @@
             }
           },
           "default": {
-            "description": "login failed",
+            "description": "signin failed",
             "content": {
               "application/json": {
                 "schema": {
@@ -214,10 +214,272 @@
           }
         }
       }
+    },
+    "/api/question/{id}": {
+      "get": {
+        "description": "get question",
+        "parameters": [
+          {
+            "name": "id",
+            "in" : "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/QuestionID"
+            }
+          },
+          {
+            "name": "token",
+            "in" : "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "question found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Question"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "question not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "question error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "edit a question",
+        "parameters": [
+          {
+            "name": "id",
+            "in" : "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/QuestionID"
+            }
+          },
+          {
+            "name": "token",
+            "in" : "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "edit a question request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Question"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "question successfully edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "question not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "question not edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete question",
+        "parameters": [
+          {
+            "name": "id",
+            "in" : "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/QuestionID"
+            }
+          },
+          {
+            "name": "token",
+            "in" : "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "question deletion sucessfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "question not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "question deletion failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/questions": {
+      "get": {
+        "description": "question",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "question found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "question request failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "add question",
+        "parameters": [
+          {
+            "name": "token",
+            "in" : "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "add question request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionCreation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "add question sucessfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "add question failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Token": {
+        "type": "string"
+      },
       "User": {
         "type": "object",
         "required": [
@@ -263,6 +525,66 @@
         "format": "password",
         "minLength": 8,
         "maxLength": 30
+      },
+      "QuestionID": {
+        "type": "number"
+      },
+      "QuestionCreation": {
+        "type": "object",
+        "required": [
+          "label",
+          "goodAnswer",
+          "badAnswer1",
+          "badAnswer2",
+          "badAnswer3",
+          "difficulty",
+          "categories"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "goodAnswer": {
+            "type": "string"
+          },
+          "badAnswer1": {
+            "type": "string"
+          },
+          "badAnswer2": {
+            "type": "string"
+          },
+          "badAnswer3": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "number"
+          },
+          "categories": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Question": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuestionCreation"
+          },
+          {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/components/schemas/QuestionID"
+              }
+            }
+          }
+        ]
       }
     }
   }

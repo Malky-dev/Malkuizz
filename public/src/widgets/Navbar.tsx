@@ -12,7 +12,7 @@ interface iState {
   page: tPage
 }
 
-export type tPage = "home" | "quizz" | "score" | "addQuestion" | "editQuestion" | "editUsers" | "intels" | "logout" | "login" | "signin"
+export type tPage = "home" | "quizz" | "score" | "question" | "questions" | "user" | "intels" | "logout" | "login" | "signin"
 
 export default class Navbar extends React.Component<iProps, iState> {
 
@@ -84,13 +84,13 @@ export default class Navbar extends React.Component<iProps, iState> {
             <a className="nav-link" href="#score" onClick={this.handleChangePage}> Voir mes scores </a>
           </li>}
           {this.props.role !== 'basic' && <li className="nav-item">
-            <a className="nav-link" href="#addQuestion" onClick={this.handleChangePage}> Ajouter une question </a>
+            <a className="nav-link" href="#question" onClick={this.handleChangePage}> Ajouter une question </a>
           </li>}
           {this.props.role !== 'basic' && <li className="nav-item">
-            <a className="nav-link" href="#editQuestion" onClick={this.handleChangePage}> Gérer les questions </a>
+            <a className="nav-link" href="#questions" onClick={this.handleChangePage}> Gérer les questions </a>
           </li>}
           {this.props.role === 'admin' && <li className="nav-item">
-            <a className="nav-link" href="#editUsers" onClick={this.handleChangePage}> Gérer les utilisateurs </a>
+            <a className="nav-link" href="#user" onClick={this.handleChangePage}> Gérer les utilisateurs </a>
           </li>}
         </ul>
       </div>

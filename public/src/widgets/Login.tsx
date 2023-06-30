@@ -14,7 +14,7 @@ interface iStates {
 }
 export default class Login extends React.Component<iProps, iStates> {
   
-  constructor ( props: any ) {
+  constructor ( props: iProps ) {
 
     super(props)
 
@@ -157,12 +157,12 @@ export default class Login extends React.Component<iProps, iStates> {
               </div>
               <form action="#" className="signin-form" onSubmit={this.handleSubmit}>
                 <div className="form-group mb-3">
-                  <label className="label" htmlFor="name">Adresse email</label>
-                  <input type="email" className="form-control" required value={this.state.email} onChange={this.handleChangeEmail} disabled={this.state.isCheckingLogin}/>
+                  <label className="label" htmlFor="email">Adresse email</label>
+                  <input id="email" type="email" className="form-control" required value={this.state.email} onChange={this.handleChangeEmail} disabled={this.state.isCheckingLogin}/>
                 </div>
                 <div className="form-group mb-3">
                   <label className="label" htmlFor="password">Mot de passe</label>
-                  <input type="password" className="form-control" required value={this.state.password} onChange={this.handleChangePassword} disabled={this.state.isCheckingLogin} />
+                  <input id="password" type="password" className="form-control" required value={this.state.password} onChange={this.handleChangePassword} disabled={this.state.isCheckingLogin} />
                 </div>
                 <div className="form-group">
                   {!this.state.isCheckingLogin && <button type="submit" className="form-control btn rounded submit px-3 secondaryBackgroundColor loginSubmitButton">Se connecter</button>}
