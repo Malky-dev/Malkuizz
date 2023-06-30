@@ -42,7 +42,7 @@ module.exports = async function controllerAPISignin ( app, req, res ) {
 
     if (!user) {
 
-      app.User.create({
+      await app.User.create({
         nickname: req.body.nickname,
         email: req.body.email,
         password: encryptSHA256(req.body.password),
