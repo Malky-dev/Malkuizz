@@ -31,6 +31,11 @@
           controllerAPIDeleteQuestion
         } = require(join(__dirname, 'controllers', 'controllers.js'))
 
+  const { middlewareCheckUser,
+          middlewareCheckNotSimpleUser,
+          middlewareCheckAdminUser
+        } = require(join(__dirname, 'middleware', 'middlewares.js'))
+
 // consts
 const app = express()
 const port = 8000
@@ -137,15 +142,22 @@ app.get('/api/session/:token', async (req, res) => {
 
 })
 
-.get('/api/question/:id', async (req, res) => {
+// Middleware for admin and moderator route
+.use(async ( req, res, next ) => {
 
-  controllerAPIGetQuestion( app, req, res )
+  middlewareCheckNotSimpleUser( app, req, res, next )
 
 })
 
 .get('/api/questions', async (req, res) => {
 
   controllerAPIGetQuestions( app, req, res )
+
+})
+
+.get('/api/question/:id', async (req, res) => {
+
+  controllerAPIGetQuestion( app, req, res )
 
 })
 
@@ -164,6 +176,13 @@ app.get('/api/session/:token', async (req, res) => {
 .delete('/api/question/:id', async (req, res) => {
 
   controllerAPIDeleteQuestion( app, req, res )
+
+})
+
+// Middleware for admin route
+.use(async ( req, res, next ) => {
+
+  middlewareCheckAdminUser( app, req, res, next )
 
 })
 

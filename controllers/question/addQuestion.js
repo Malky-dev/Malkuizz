@@ -2,11 +2,7 @@ module.exports = async function controllerAPIAddQuestion ( app, req, res ) {
 
   try {
 
-    if (app.Role.roleID === 3) {
-
-      throw new RangeError("role range error")
-      
-    } else if (typeof req.body === 'undefined') {
+    if (typeof req.body === 'undefined') {
 
       throw new ReferenceError("no params in body")
 
