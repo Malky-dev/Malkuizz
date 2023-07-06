@@ -14,7 +14,7 @@ module.exports = async function controllerAPIDeleteQuestion ( app, req, res ) {
 
       throw new TypeError("id type error")
 
-    }    
+    }
       
     await app.Question.destroy({
       where: {
