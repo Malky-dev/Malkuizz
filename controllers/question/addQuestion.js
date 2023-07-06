@@ -90,7 +90,9 @@ module.exports = async function controllerAPIAddQuestion ( app, req, res ) {
       const addCategories = await app.Rel_question_category.bulkCreate(req.body.categories.map((category) => {
         return { questionID: getQuestion.questionID, categoryID: category}
       }))
-console.log(addCategories);
+
+      console.log(addCategories);
+
       res.status(201).json("Question successfully inserted")
 
     } else {
