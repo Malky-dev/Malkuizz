@@ -50,7 +50,7 @@ module.exports = async function controllerAPIAddQuestion ( app, req, res ) {
 
       throw new ReferenceError("difficulty reference error")
 
-    } else if (typeof req.body.difficulty !== 'string') {
+    } else if (typeof req.body.difficulty !== 'number') {
 
       throw new TypeError("difficulty type error")
 
@@ -58,24 +58,44 @@ module.exports = async function controllerAPIAddQuestion ( app, req, res ) {
 
       throw new ReferenceError("categories reference error")
 
-    } else if (typeof req.body.categories !== 'string') {
+    } else if (typeof req.body.categories !== 'object' && req.body.categories instanceof Array) {
 
       throw new TypeError("categories type error")
 
     }
 
-    const question = await app.question.findOne({ where: { questionLabel: req.body.label }})
+    req.body.categories.forEach((category, key) => {
+      if (typeof category === 'number') {
 
-    if (!question) {
+        throw new TypeError("category " + key + " type error")
+  
+      }
+    });
+
+    const checkQuestion = await app.Question.findOne({ where: { questionLabel: req.body.label }})
+
+    if (!checkQuestion) {
       
-      app.Question.create({
+      await app.Question.create({
         questionLabel: req.body.label,
         goodAnswer: req.body.goodAnswer,
         badAnswer1: req.body.badAnswer1,
         badAnswer2: req.body.badAnswer2,
         badAnswer3: req.body.badAnswer3,
-        difficulty: req.body.difficulty
+        difficultyID: req.body.difficulty
       })
+
+      const getQuestion = await app.Question.findOne({ where: { questionLabel: req.body.label }})
+      
+      const addCategories = await app.Rel_question_category.bulkCreate(req.body.categories.map((category) => {
+        return { questionID: getQuestion.questionID, categoryID: category}
+      }))
+console.log(addCategories);
+      res.status(201).json("Question successfully inserted")
+
+    } else {
+
+      res.status(500).json({code: "DUPLICATE", message: "Question already exists"})
 
     }
 

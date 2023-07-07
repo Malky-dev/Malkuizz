@@ -18,7 +18,8 @@
           getQuestion,
           getCategory,
           getDifficulty,
-          getScore
+          getScore,
+          getRel_question_category
         } = require(join(__dirname, 'definitions', 'definitions.js'))
 
   const { controllerAPILogin,
@@ -49,6 +50,8 @@ const Role = getRole(sequelize)
 const Question = getQuestion(sequelize)
 const Difficulty = getDifficulty(sequelize)
 const Category = getCategory(sequelize)
+const Score = getScore(sequelize)
+const Rel_question_category = getRel_question_category(sequelize)
 
 // module
 app.use(express.json())
@@ -69,6 +72,8 @@ app.Role= Role
 app.Question= Question
 app.Category= Category
 app.Difficulty= Difficulty
+app.Score= Score
+app.Rel_question_category= Rel_question_category
 
 // APP PUBLIC
 // HTML
@@ -136,18 +141,18 @@ app.get('/api/session/:token', async (req, res) => {
 })
 
 // Middleware to authenticate the user
-.use(async ( req, res, next ) => {
+// .use(async ( req, res, next ) => {
 
-  middlewareCheckUser( app, req, res, next )
+//   middlewareCheckUser( app, req, res, next )
 
-})
+// })
 
 // Middleware for admin and moderator route
-.use(async ( req, res, next ) => {
+// .use(async ( req, res, next ) => {
 
-  middlewareCheckNotSimpleUser( app, req, res, next )
+//   middlewareCheckNotSimpleUser( app, req, res, next )
 
-})
+// })
 
 .get('/api/questions', async (req, res) => {
 
@@ -161,7 +166,7 @@ app.get('/api/session/:token', async (req, res) => {
 
 })
 
-.put('/api/question', async (req, res) => {
+.put('/api/questions', async (req, res) => {
 
   controllerAPIAddQuestion( app, req, res )
 
@@ -180,11 +185,11 @@ app.get('/api/session/:token', async (req, res) => {
 })
 
 // Middleware for admin route
-.use(async ( req, res, next ) => {
+// .use(async ( req, res, next ) => {
 
-  middlewareCheckAdminUser( app, req, res, next )
+//   middlewareCheckAdminUser( app, req, res, next )
 
-})
+// })
 
 // Global 404
 .use(function(req, res) {

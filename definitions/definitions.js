@@ -7,6 +7,7 @@ const getQuestion = require(join(__dirname, 'Question'))
 const getCategory = require(join(__dirname, 'Category'))
 const getDifficulty = require(join(__dirname, 'Difficulty'))
 const getScore = require(join(__dirname, 'Score'))
+const getRel_question_category = require(join(__dirname, 'Rel_question_category'))
 
 module.exports = {
   getUser,
@@ -15,5 +16,6 @@ module.exports = {
   getQuestion,
   getCategory,
   getDifficulty,
-  getScore
+  getScore,
+  getRel_question_category
 }

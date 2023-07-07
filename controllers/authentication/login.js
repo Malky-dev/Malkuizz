@@ -42,7 +42,7 @@ module.exports = async function controllerAPILogin ( app, req, res ) {
      const userAgent = req.get('User-Agent')
      const device = deviceDetector.parse(userAgent)
 
-     app.Session.create({ 
+     await app.Session.create({ 
       userID: user.userID,
       token: token,
       expiration: formatDate(new Date(new Date().setDate(new Date().getDate() + 30))),
