@@ -154,7 +154,7 @@ app.get('/api/session/:token', async (req, res) => {
 
 // })
 
-.get('/api/questions', async (req, res) => {
+.get('/api/questions', (req, res) => {
 
   controllerAPIGetQuestions( app, req, res )
 
