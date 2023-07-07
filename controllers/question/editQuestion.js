@@ -102,7 +102,7 @@ module.exports = async function controllerAPIEditQuestion ( app, req, res ) {
       return { questionID: req.params.id, categoryID: category}
     }))
 
-    res.status(201).json("Question successfully updated")
+    res.status(200).json("Question successfully updated")
 
   } catch (error) {
 
